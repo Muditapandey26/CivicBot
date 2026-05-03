@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+  /* Dark Mode (default) */
+  --bg-color: #0A0E27;
+  --main-color: #FF6B35;
+  --main-color-hover: #E85B28;
+  --text-color: #FFFFFF;
+  --text-muted: #A0AABF;
+  --card-bg: rgba(255, 255, 255, 0.05);
+  --sidebar-bg: rgba(0, 0, 0, 0.2);
+  --border-color: rgba(255, 255, 255, 0.1);
+  --input-bg: rgba(255, 255, 255, 0.05);
+  --bot-msg-bg: rgba(255, 107, 53, 0.1);
+  --user-msg-bg: rgba(255, 255, 255, 0.1);
+  --gradient: linear-gradient(135deg, #0A0E27 0%, #151A3A 100%);
+}
+
+[data-theme="light"] {
+  /* Light Mode */
+  --bg-color: #F8F9FA;
+  --main-color: #0D7A77;
+  --main-color-hover: #0A5F5D;
+  --text-color: #2C3E50;
+  --text-muted: #5C6E80;
+  --card-bg: #FFFFFF;
+  --sidebar-bg: #FFFFFF;
+  --border-color: rgba(0, 0, 0, 0.1);
+  --input-bg: #FFFFFF;
+  --bot-msg-bg: rgba(13, 122, 119, 0.1);
+  --user-msg-bg: rgba(0, 0, 0, 0.05);
+  --gradient: linear-gradient(135deg, #F8F9FA 0%, #E9ECEF 100%);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  width: 100%;
+}
+
+a {
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+p {
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  color: var(--text-muted);
+}
+
+button {
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--main-color);
+}
