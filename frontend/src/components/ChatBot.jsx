@@ -10,6 +10,7 @@ const ChatBot = () => {
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [sessionId, setSessionId] = useState(null);
   const messagesEndRef = useRef(null);
 
   const toggleChat = () => setIsOpen(!isOpen);
@@ -22,9 +23,34 @@ const ChatBot = () => {
     scrollToBottom();
   }, [messages, isLoading]);
 
+  // Create session on mount
+  useEffect(() => {
+    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+    axios.get(`${apiUrl}/api/session`)
+      .then(res => setSessionId(res.data.session_id))
+      .catch(err => console.error("Session fetch error:", err));
+  }, []);
+
   const handleSend = async (e) => {
     e.preventDefault();
     if (!input.trim()) return;
+
+    let currentSessionId = sessionId;
+    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+
+    if (!currentSessionId) {
+      try {
+        const res = await axios.get(`${apiUrl}/api/session`);
+        currentSessionId = res.data.session_id;
+        setSessionId(currentSessionId);
+      } catch (err) {
+        setMessages(prev => [...prev, { 
+          text: "Please make sure the backend server is running. I couldn't connect to start a session.", 
+          isBot: true 
+        }]);
+        return;
+      }
+    }
 
     const userMessage = input.trim();
     setMessages(prev => [...prev, { text: userMessage, isBot: false }]);
@@ -33,9 +59,9 @@ const ChatBot = () => {
 
     try {
       // Allow overriding API URL for production vs local
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080';
       const response = await axios.post(`${apiUrl}/api/chat`, {
-        message: userMessage
+        message: userMessage,
+        session_id: currentSessionId
       });
       
       setMessages(prev => [...prev, { text: response.data.reply, isBot: true }]);
